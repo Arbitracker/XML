@@ -273,6 +273,22 @@ class arbitXmlTests extends arbitTestCase
     }
 
     /**
+     * Test Node list to string conversion
+     * 
+     * @return void
+     */
+    public function testNodeListToStringConversion()
+    {
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+
+        $nodeList = $xml->section->module;
+        $this->assertEquals(
+            "Module",
+            (string) $nodeList
+        );
+    }
+
+    /**
      * Test failure on invalid attribute value
      * 
      * @return void

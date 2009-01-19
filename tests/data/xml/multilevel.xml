@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <root>
 	<section>
-		<module id="mod1" />
+		<module id="mod1">Module</module>
 		<module id="mod2" />
 	</section>
 	<section>
