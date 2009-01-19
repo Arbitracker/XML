@@ -9,7 +9,7 @@
 /**
  * Tests for the XML xml serialization
  */
-class vcsXmlSerializeTests extends vcsTestCase
+class arbitXmlSerializeTests extends arbitTestCase
 {
     /**
      * Return test suite
@@ -28,12 +28,12 @@ class vcsXmlSerializeTests extends vcsTestCase
      */
     public function testMinimalSerilization()
     {
-        $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/minimal.xml' );
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/minimal.xml' );
 
         // This result should come out of the cache.
         eval( '$cachedXml = ' . var_export( $xml, true ) . ';' );
 
-        $this->assertTrue( $cachedXml instanceof vcsXml );
+        $this->assertTrue( $cachedXml instanceof arbitXml );
         $this->assertEquals( $xml, $cachedXml );
     }
 
@@ -44,12 +44,12 @@ class vcsXmlSerializeTests extends vcsTestCase
      */
     public function testExampleSerilization()
     {
-        $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/example.xml' );
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/example.xml' );
 
         // This result should come out of the cache.
         eval( '$cachedXml = ' . var_export( $xml, true ) . ';' );
 
-        $this->assertTrue( $cachedXml instanceof vcsXml );
+        $this->assertTrue( $cachedXml instanceof arbitXml );
         $this->assertEquals( $xml, $cachedXml );
     }
 }

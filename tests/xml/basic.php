@@ -9,7 +9,7 @@
 /**
  * Tests for the XML handler
  */
-class vcsXmlTests extends vcsTestCase
+class arbitXmlTests extends arbitTestCase
 {
     /**
      * Return test suite
@@ -30,10 +30,10 @@ class vcsXmlTests extends vcsTestCase
     {
         try
         {
-            $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/not_existing_file.xml.xml' );
-            $this->fail( 'Expected vcsNoSuchFileException.' );
+            $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/not_existing_file.xml.xml' );
+            $this->fail( 'Expected arbitNoSuchFileException.' );
         }
-        catch( vcsNoSuchFileException $e )
+        catch( arbitNoSuchFileException $e )
         { /* Expected */ }
     }
 
@@ -46,10 +46,10 @@ class vcsXmlTests extends vcsTestCase
     {
         try
         {
-            $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/broken_1.xml' );
-            $this->fail( 'Expected vcsXmlParserException.' );
+            $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/broken_1.xml' );
+            $this->fail( 'Expected arbitXmlParserException.' );
         }
-        catch( vcsXmlParserException $e )
+        catch( arbitXmlParserException $e )
         { /* Expected */ }
     }
 
@@ -62,10 +62,10 @@ class vcsXmlTests extends vcsTestCase
     {
         try
         {
-            $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/broken_2.xml' );
-            $this->fail( 'Expected vcsXmlParserException.' );
+            $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/broken_2.xml' );
+            $this->fail( 'Expected arbitXmlParserException.' );
         }
-        catch( vcsXmlParserException $e )
+        catch( arbitXmlParserException $e )
         { /* Expected */ }
     }
 
@@ -78,10 +78,10 @@ class vcsXmlTests extends vcsTestCase
     {
         try
         {
-            $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/broken_3.xml' );
-            $this->fail( 'Expected vcsXmlParserException.' );
+            $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/broken_3.xml' );
+            $this->fail( 'Expected arbitXmlParserException.' );
         }
-        catch( vcsXmlParserException $e )
+        catch( arbitXmlParserException $e )
         { /* Expected */ }
     }
 
@@ -92,10 +92,10 @@ class vcsXmlTests extends vcsTestCase
      */
     public function testMinimalXmlFile()
     {
-        $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/minimal.xml' );
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/minimal.xml' );
 
         $this->assertTrue(
-            $xml instanceof vcsXml
+            $xml instanceof arbitXml
         );
     }
 
@@ -106,10 +106,10 @@ class vcsXmlTests extends vcsTestCase
      */
     public function testMinimalXmlString()
     {
-        $xml = vcsXml::loadString( file_get_contents( dirname( __FILE__ ) . '/../data/xml/minimal.xml' ) );
+        $xml = arbitXml::loadString( file_get_contents( dirname( __FILE__ ) . '/../data/xml/minimal.xml' ) );
 
         $this->assertTrue(
-            $xml instanceof vcsXml
+            $xml instanceof arbitXml
         );
     }
 
@@ -120,10 +120,10 @@ class vcsXmlTests extends vcsTestCase
      */
     public function testTextContent()
     {
-        $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/text.xml' );
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/text.xml' );
 
         $this->assertTrue(
-            $xml instanceof vcsXmlNode
+            $xml instanceof arbitXmlNode
         );
 
         $this->assertEquals(
@@ -144,18 +144,18 @@ class vcsXmlTests extends vcsTestCase
      */
     public function testXmlWithAttributes()
     {
-        $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/attributes.xml' );
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/attributes.xml' );
 
         $this->assertTrue(
-            $xml->element instanceof vcsXmlNodeList
+            $xml->element instanceof arbitXmlNodeList
         );
 
         $this->assertTrue(
-            $xml->element[0] instanceof vcsXmlNode
+            $xml->element[0] instanceof arbitXmlNode
         );
 
         $this->assertTrue(
-            $xml->element[1] instanceof vcsXmlNode
+            $xml->element[1] instanceof arbitXmlNode
         );
 
         $this->assertEquals(
@@ -176,10 +176,10 @@ class vcsXmlTests extends vcsTestCase
      */
     public function testMultilevelNodeListCreation()
     {
-        $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
 
         $this->assertTrue(
-            $xml->section->module instanceof vcsXmlNodeList
+            $xml->section->module instanceof arbitXmlNodeList
         );
 
         $this->assertEquals(
@@ -200,7 +200,7 @@ class vcsXmlTests extends vcsTestCase
      */
     public function testNodeListIterator()
     {
-        $xml = vcsXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
 
         $modules = $xml->section->module;
 

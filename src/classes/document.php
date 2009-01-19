@@ -1,24 +1,23 @@
 <?php
 /**
- * PHP VCS wrapper Xml document base
+ * Arbit Xml document base
  *
- * This file is part of vcs-wrapper.
+ * This file is part of Arbit.
  *
- * vcs-wrapper is free software; you can redistribute it and/or modify it under
+ * Arbit is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; version 3 of the License.
  *
- * vcs-wrapper is distributed in the hope that it will be useful, but WITHOUT ANY
+ * Arbit is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
  * more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with vcs-wrapper; if not, write to the Free Software Foundation, Inc., 51
+ * along with Arbit; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @package VCSWrapper
- * @subpackage Xml
+ * @package XML
  * @version $Revision$
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPLv3
  */
@@ -27,16 +26,16 @@
  * XML reader
  *
  * Custom XML reader using the PHP xmlreader, exposing an interface similar to
- * simple XML, but implementing vcsCacheable, so the parsed XML structure can
+ * simple XML, but implementing arbitCacheable, so the parsed XML structure can
  * be cached.
  */
-class vcsXml extends vcsXmlNode implements vcsCacheable
+class arbitXml extends arbitXmlNode implements arbitCacheable
 {
     /**
      * Create XML document from file
      *
      * @param string $xmlFile
-     * @return vcsXml
+     * @return arbitXml
      */
     public static function loadFile( $xmlFile )
     {
@@ -44,7 +43,7 @@ class vcsXml extends vcsXmlNode implements vcsCacheable
         if ( !is_file( $xmlFile ) ||
              !is_readable( $xmlFile ) )
         {
-            throw new vcsNoSuchFileException( $xmlFile );
+            throw new arbitNoSuchFileException( $xmlFile );
         }
 
         return self::parseXml( $xmlFile );
@@ -54,7 +53,7 @@ class vcsXml extends vcsXmlNode implements vcsCacheable
      * Create XML document from string
      *
      * @param string $xmlString
-     * @return vcsXml
+     * @return arbitXml
      */
     public static function loadString( $xmlString )
     {
@@ -94,10 +93,10 @@ class vcsXml extends vcsXmlNode implements vcsCacheable
     /**
      * Parse XML file
      *
-     * Parse the given XML into vcsXmlNode objects using the XMLReader class.
+     * Parse the given XML into arbitXmlNode objects using the XMLReader class.
      *
      * @param string $xmlFile
-     * @return vcsXmlNode
+     * @return arbitXmlNode
      */
     protected static function parseXml( $xmlFile )
     {
@@ -115,7 +114,7 @@ class vcsXml extends vcsXmlNode implements vcsCacheable
         $reader->open( $xmlFile );
 
         // Current node, processed. Start with a reference to th root node.
-        $current = $root = new vcsXml();
+        $current = $root = new arbitXml();
 
         // Stack of parents for the current node. We store this list, because
         // we do not want to store a parent node reference in the nodes, as
@@ -144,7 +143,7 @@ class vcsXml extends vcsXmlNode implements vcsCacheable
 
                     // Create new child and reference node as current working
                     // node
-                    $current = $current->$nodeName = new vcsXmlNode();
+                    $current = $current->$nodeName = new arbitXmlNode();
 
                     // After reading the elements we need to know about this
                     // for further progressing
@@ -199,7 +198,7 @@ class vcsXml extends vcsXmlNode implements vcsCacheable
             libxml_use_internal_errors( $libXmlErrors );
             libxml_clear_errors();
 
-            throw new vcsXmlParserException( $xmlFile, $errors );
+            throw new arbitXmlParserException( $xmlFile, $errors );
         }
 
         // Reset libxml error handling to old state
@@ -229,9 +228,9 @@ class vcsXml extends vcsXmlNode implements vcsCacheable
      *
      * @param array $array
      * @param string $class
-     * @return vcsXml
+     * @return arbitXml
      */
-    public static function __set_state( array $array, $class = 'vcsXmlNode' )
+    public static function __set_state( array $array, $class = 'arbitXmlNode' )
     {
         return parent::__set_state( $array, __CLASS__ );
     }

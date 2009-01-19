@@ -1,24 +1,23 @@
 <?php
 /**
- * PHP VCS wrapper Xml node list
+ * Arbit Xml node list
  *
- * This file is part of vcs-wrapper.
+ * This file is part of Arbit.
  *
- * vcs-wrapper is free software; you can redistribute it and/or modify it under
+ * Arbit is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; version 3 of the License.
  *
- * vcs-wrapper is distributed in the hope that it will be useful, but WITHOUT ANY
+ * Arbit is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
  * more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with vcs-wrapper; if not, write to the Free Software Foundation, Inc., 51
+ * along with Arbit; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @package VCSWrapper
- * @subpackage Xml
+ * @package XML
  * @version $Revision$
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPLv3
  */
@@ -29,12 +28,12 @@
  * Single element node in an XML document mostly behaving like a
  * SimpleXMLElement node list.
  */
-class vcsXmlNodeList implements ArrayAccess, Iterator, Countable
+class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
 {
     /**
      * Nodes in node list
      * 
-     * @var array(vcsXmlNode)
+     * @var array(arbitXmlNode)
      */
     protected $nodes;
     
@@ -57,12 +56,12 @@ class vcsXmlNodeList implements ArrayAccess, Iterator, Countable
      * with all childs with this name of all nodes in the current node list.
      * 
      * @param string $childName 
-     * @return vcsXmlNodeList
+     * @return arbitXmlNodeList
      */
     public function __get( $childName )
     {
         // Create new list to fill up
-        $list = new vcsXmlNodeList();
+        $list = new arbitXmlNodeList();
 
         // Iterate over all nodes and check if a child with the requested name
         // exists.
@@ -89,11 +88,11 @@ class vcsXmlNodeList implements ArrayAccess, Iterator, Countable
      * 
      * @param string $property 
      * @param mixed $value
-     * @return vcsXmlNode
+     * @return arbitXmlNode
      */
     public function __set( $property, $value )
     {
-        throw new torii_AccessException( $property, 'Setting not allowed' );
+        throw new arbitAccessException( $property, 'Setting not allowed' );
     }
 
     /**
@@ -133,7 +132,7 @@ class vcsXmlNodeList implements ArrayAccess, Iterator, Countable
      */
     public static function __set_state( array $array )
     {
-        $list = new vcsXmlNodeList();
+        $list = new arbitXmlNodeList();
 
         // Just append all known nodes using array access.
         foreach ( $array['nodes'] as $node )
@@ -181,7 +180,7 @@ class vcsXmlNodeList implements ArrayAccess, Iterator, Countable
      * Get node from node list by its number.
      * 
      * @param int $item 
-     * @return vcsXmlNode
+     * @return arbitXmlNode
      */
     public function offsetGet( $item )
     {
@@ -199,7 +198,7 @@ class vcsXmlNodeList implements ArrayAccess, Iterator, Countable
      * Append node to node list
      * 
      * @param int $item 
-     * @param vcsXmlNode $node
+     * @param arbitXmlNode $node
      * @return void
      */
     public function offsetSet( $item, $node )
@@ -208,7 +207,7 @@ class vcsXmlNodeList implements ArrayAccess, Iterator, Countable
         // all other array keys then null.
         if ( $item !== null )
         {
-            throw new torii_ValueException( $item, 'null' );
+            throw new arbitValueException( $item, 'null' );
         }
 
         return $this->nodes[] = $node;
@@ -225,7 +224,7 @@ class vcsXmlNodeList implements ArrayAccess, Iterator, Countable
      */
     public function offsetUnset( $item )
     {
-        throw new torii_AccessException( 'unset', 'Removing nodes not allowed.' );
+        throw new arbitValueException( 'unset', 'Removing nodes not allowed.' );
     }
 
     /**

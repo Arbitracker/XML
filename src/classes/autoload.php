@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @package Core
- * @version $Revision: 810 $
+ * @version $Revision: 962 $
  * @license http://www.gnu.org/licenses/gpl-3.0.txt GPL
  */
 
@@ -29,8 +29,12 @@
  * # scripts/gen_autoload_files.php
  */
 return array(
-    'vcsXmlNode'     => 'node.php',
-    'vcsXml'         => 'document.php',
-    'vcsXmlNodeList' => 'node_list.php',
+    'arbitXmlNode'             => 'node.php',
+    'arbitCacheable'           => 'cacheable.php',
+    'arbitXml'                 => 'document.php',
+    'arbitException'           => 'exceptions.php',
+    'arbitNoSuchFileException' => 'exceptions.php',
+    'arbitXmlParserException'  => 'exceptions.php',
+    'arbitXmlNodeList'         => 'node_list.php',
 );
 

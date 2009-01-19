@@ -1,24 +1,23 @@
 <?php
 /**
- * PHP VCS wrapper Xml node
+ * Arbit Xml node
  *
- * This file is part of vcs-wrapper.
+ * This file is part of Arbit.
  *
- * vcs-wrapper is free software; you can redistribute it and/or modify it under
+ * Arbit is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; version 3 of the License.
  *
- * vcs-wrapper is distributed in the hope that it will be useful, but WITHOUT ANY
+ * Arbit is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
  * more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with vcs-wrapper; if not, write to the Free Software Foundation, Inc., 51
+ * along with Arbit; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @package VCSWrapper
- * @subpackage Xml
+ * @package XML
  * @version $Revision$
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPLv3
  */
@@ -29,12 +28,12 @@
  * Single element node in an XML document mostly behaving like a
  * SimpleXMLElement object.
  */
-class vcsXmlNode implements ArrayAccess
+class arbitXmlNode implements ArrayAccess
 {
     /**
      * Childnodes of this node
      * 
-     * @var array(vcsXmlNode)
+     * @var array(arbitXmlNode)
      */
     protected $childs;
 
@@ -85,7 +84,7 @@ class vcsXmlNode implements ArrayAccess
      * Access childs through object properties
      * 
      * @param string $childName 
-     * @return vcsXmlNode
+     * @return arbitXmlNode
      */
     public function __get( $childName )
     {
@@ -103,21 +102,21 @@ class vcsXmlNode implements ArrayAccess
      * Access childs through object properties
      * 
      * @param string $childName 
-     * @param vcsXmlNode $child
-     * @return vcsXmlNode
+     * @param arbitXmlNode $child
+     * @return arbitXmlNode
      */
-    public function __set( $childName, vcsXmlNode $child )
+    public function __set( $childName, arbitXmlNode $child )
     {
         if ( !is_string( $childName ) )
         {
             // We only accept strings for child names
-            throw new torii_ValueException( $attribute, 'string' );
+            throw new arbitValueException( $attribute, 'string' );
         }
 
         // Check if there already is a node list, othwerwise create it
         if ( !isset( $this->childs[$childName] ) )
         {
-            $this->childs[$childName] = new vcsXmlNodeList();
+            $this->childs[$childName] = new arbitXmlNodeList();
         }
 
         return $this->childs[$childName][] = $child;
@@ -182,7 +181,7 @@ class vcsXmlNode implements ArrayAccess
              !is_string( $attribute ) )
         {
             // We only accept strings for name AND content
-            throw new torii_ValueException( $attribute, 'string' );
+            throw new arbitValueException( $attribute, 'string' );
         }
 
         $this->attributes[$attributeName] = $attribute;
@@ -216,11 +215,11 @@ class vcsXmlNode implements ArrayAccess
     /**
      * Convert current node into a document node
      * 
-     * @return vcsXml
+     * @return arbitXml
      */
     public function toDocument()
     {
-        return vcsXml::__set_state( array( 
+        return arbitXml::__set_state( array( 
             'childs'     => $this->childs,
             'attributes' => $this->attributes,
             'content'    => $this->content,
@@ -234,9 +233,9 @@ class vcsXmlNode implements ArrayAccess
      * 
      * @param array $array 
      * @param string $class
-     * @return vcsXmlNode
+     * @return arbitXmlNode
      */
-    public static function __set_state( array $array, $class = 'vcsXmlNode' )
+    public static function __set_state( array $array, $class = 'arbitXmlNode' )
     {
         $node = new $class();
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * vcs main test suite
+ * arbit main test suite
  *
  * @version $Revision: 926 $
  * @license LGPLv3
@@ -29,9 +29,9 @@ require 'base_test.php';
 require 'xml_suite.php';
 
 /**
-* Test suite for vcs
+* Test suite for arbit
 */
-class vcsTestSuite extends PHPUnit_Framework_TestSuite
+class arbitTestSuite extends PHPUnit_Framework_TestSuite
 {
     /**
      * Basic constructor for test suite
@@ -41,9 +41,9 @@ class vcsTestSuite extends PHPUnit_Framework_TestSuite
     public function __construct()
     {
         parent::__construct();
-        $this->setName( 'vcsWrapper - A PHP version control system wrapper' );
+        $this->setName( 'arbitWrapper - A PHP version control system wrapper' );
 
-        $this->addTestSuite( vcsXmlTestSuite::suite() );
+        $this->addTestSuite( arbitXmlTestSuite::suite() );
     }
 
     /**
@@ -53,7 +53,7 @@ class vcsTestSuite extends PHPUnit_Framework_TestSuite
      */
     public static function suite()
     {
-        return new vcsTestSuite( __CLASS__ );
+        return new arbitTestSuite( __CLASS__ );
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * vcs main test suite
+ * arbit main test suite
  *
  * @version $Revision$
  * @license LGPLv3
@@ -27,9 +27,9 @@ require 'xml/basic.php';
 require 'xml/serialisation.php';
 
 /**
-* Test suite for vcs
+* Test suite for arbit
 */
-class vcsXmlTestSuite extends PHPUnit_Framework_TestSuite
+class arbitXmlTestSuite extends PHPUnit_Framework_TestSuite
 {
     /**
      * Basic constructor for test suite
@@ -41,8 +41,8 @@ class vcsXmlTestSuite extends PHPUnit_Framework_TestSuite
         parent::__construct();
         $this->setName( 'Xml suite' );
 
-        $this->addTest( vcsXmlTests::suite() );
-        $this->addTest( vcsXmlSerializeTests::suite() );
+        $this->addTest( arbitXmlTests::suite() );
+        $this->addTest( arbitXmlSerializeTests::suite() );
     }
 
     /**
@@ -52,7 +52,7 @@ class vcsXmlTestSuite extends PHPUnit_Framework_TestSuite
      */
     public static function suite()
     {
-        return new vcsXmlTestSuite( __CLASS__ );
+        return new arbitXmlTestSuite( __CLASS__ );
     }
 }
 
