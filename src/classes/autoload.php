@@ -35,6 +35,8 @@ return array(
     'arbitException'           => 'exceptions.php',
     'arbitNoSuchFileException' => 'exceptions.php',
     'arbitXmlParserException'  => 'exceptions.php',
+    'arbitAccessException'     => 'exceptions.php',
+    'arbitValueException'      => 'exceptions.php',
     'arbitXmlNodeList'         => 'node_list.php',
 );
 

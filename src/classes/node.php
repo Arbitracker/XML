@@ -110,7 +110,7 @@ class arbitXmlNode implements ArrayAccess
         if ( !is_string( $childName ) )
         {
             // We only accept strings for child names
-            throw new arbitValueException( $attribute, 'string' );
+            throw new arbitValueException( $childName, 'string' );
         }
 
         // Check if there already is a node list, othwerwise create it

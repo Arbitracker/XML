@@ -214,5 +214,99 @@ class arbitXmlTests extends arbitTestCase
             );
         }
     }
+
+    /**
+     * Test failure on setting a node list property
+     * 
+     * @return void
+     */
+    public function testSetNodeListProperty()
+    {
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+
+        try
+        {
+            $nodeList = $xml->section->module;
+            $nodeList->property = 'value';
+            $this->fail( 'Expected arbitAccessException.' );
+        }
+        catch ( arbitAccessException $e )
+        { /* Expected */ }
+    }
+
+    /**
+     * Test failure on setting a node list array value
+     * 
+     * @return void
+     */
+    public function testSetNodeListArrayValue()
+    {
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+
+        try
+        {
+            $nodeList = $xml->section->module;
+            $nodeList['key'] = 'value';
+            $this->fail( 'Expected arbitValueException.' );
+        }
+        catch ( arbitValueException $e )
+        { /* Expected */ }
+    }
+
+    /**
+     * Test failure on unsetting a node list array value
+     * 
+     * @return void
+     */
+    public function testUnSetNodeListArrayValue()
+    {
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+
+        try
+        {
+            $nodeList = $xml->section->module;
+            unset( $nodeList[0] );
+            $this->fail( 'Expected arbitValueException.' );
+        }
+        catch ( arbitValueException $e )
+        { /* Expected */ }
+    }
+
+    /**
+     * Test failure on invalid attribute value
+     * 
+     * @return void
+     */
+    public function testInvalidNodeAttributeValue()
+    {
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/minimal.xml' );
+
+        $xml['attribute'] = 'value';
+        try
+        {
+            $xml[12] = 'value';
+            $this->fail( 'Expected arbitValueException.' );
+        }
+        catch ( arbitValueException $e )
+        { /* Expected */ }
+    }
+
+    /**
+     * Test failure on invalid child name
+     * 
+     * @return void
+     */
+    public function testInvalidNodeChildName()
+    {
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/minimal.xml' );
+
+        try
+        {
+            $xml->__set( 0, $xml );
+            $this->fail( 'Expected arbitValueException.' );
+        }
+        catch ( arbitValueException $e )
+        { /* Expected */ }
+    }
 }
 

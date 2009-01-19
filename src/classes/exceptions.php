@@ -88,3 +88,39 @@ class arbitXmlParserException extends arbitException
     }
 }
 
+/**
+ * Exception thrown, when access of some type is not allowed
+ */
+class arbitAccessException extends arbitException
+{
+    /**
+     * Construct exception
+     *
+     * @param string $property
+     * @param string $message
+     * @return void
+     */
+    public function __construct( $property, $message )
+    {
+        parent::__construct( "The property '$property' cannot be accessed: $message." );
+    }
+}
+
+/**
+ * Exception thrown, when the assigned value is invalid
+ */
+class arbitValueException extends arbitException
+{
+    /**
+     * Construct exception
+     *
+     * @param string $property
+     * @param string $message
+     * @return void
+     */
+    public function __construct( $property, $message )
+    {
+        parent::__construct( "The value for '$property' is invalid: $message." );
+    }
+}
+
