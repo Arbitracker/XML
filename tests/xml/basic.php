@@ -114,6 +114,21 @@ class arbitXmlTests extends arbitTestCase
     }
 
     /**
+     * Test isset methods
+     * 
+     * @return void
+     */
+    public function testIssetXmlhildElements()
+    {
+        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/example.xml' );
+
+        $this->assertFalse( isset( $xml->notexistant ) );
+        $this->assertFalse( isset( $xml->general->notexistant ) );
+        $this->assertTrue( isset( $xml->general ) );
+        $this->assertTrue( isset( $xml->general->password ) );
+    }
+
+    /**
      * Test XML file with text content
      * 
      * @return void

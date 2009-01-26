@@ -132,7 +132,7 @@ class arbitXmlNode implements ArrayAccess
      */
     public function __isset( $childName )
     {
-        return isset( $childName, $this->childs );
+        return array_key_exists( $childName, $this->childs );
     }
 
     /**
