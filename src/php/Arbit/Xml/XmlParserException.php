@@ -23,34 +23,12 @@
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPLv3
  */
 
-/**
- * Base exception for all exceptions inside the CVSWrapper
- */
-abstract class arbitException extends Exception
-{
-}
+namespace Arbit\Xml;
 
 /**
  * Exception thrown, when a requested file could not be found.
  */
-class arbitNoSuchFileException extends arbitException
-{
-    /**
-     * Construct exception
-     *
-     * @param string $file
-     * @return void
-     */
-    public function __construct( $file )
-    {
-        parent::__construct( "The file '$file' could not be found." );
-    }
-}
-
-/**
- * Exception thrown, when a requested file could not be found.
- */
-class arbitXmlParserException extends arbitException
+class XmlParserException extends \Exception
 {
     /**
      * Human readable error names for libXML error type constants.
@@ -85,42 +63,6 @@ class arbitXmlParserException extends arbitException
         }
 
         parent::__construct( "The XML file '$file' could not be parsed:\n - " . implode( "\n - ", $errors ) . "\n" );
-    }
-}
-
-/**
- * Exception thrown, when access of some type is not allowed
- */
-class arbitAccessException extends arbitException
-{
-    /**
-     * Construct exception
-     *
-     * @param string $property
-     * @param string $message
-     * @return void
-     */
-    public function __construct( $property, $message )
-    {
-        parent::__construct( "The property '$property' cannot be accessed: $message." );
-    }
-}
-
-/**
- * Exception thrown, when the assigned value is invalid
- */
-class arbitValueException extends arbitException
-{
-    /**
-     * Construct exception
-     *
-     * @param string $property
-     * @param string $message
-     * @return void
-     */
-    public function __construct( $property, $message )
-    {
-        parent::__construct( "The value for '$property' is invalid: $message." );
     }
 }
 
