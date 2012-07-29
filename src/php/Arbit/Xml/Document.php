@@ -22,20 +22,22 @@
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPLv3
  */
 
+namespace Arbit\Xml;
+
 /*
  * XML reader
  *
  * Custom XML reader using the PHP xmlreader, exposing an interface similar to
- * simple XML, but implementing arbitCacheable, so the parsed XML structure can
+ * simple XML, but implementing Cacheable, so the parsed XML structure can
  * be cached.
  */
-class arbitXml extends arbitXmlNode implements arbitCacheable
+class Document extends Node
 {
     /**
      * Create XML document from file
      *
      * @param string $xmlFile
-     * @return arbitXml
+     * @return Document
      */
     public static function loadFile( $xmlFile )
     {
@@ -43,7 +45,7 @@ class arbitXml extends arbitXmlNode implements arbitCacheable
         if ( !is_file( $xmlFile ) ||
              !is_readable( $xmlFile ) )
         {
-            throw new arbitNoSuchFileException( $xmlFile );
+            throw new NoSuchFileException( $xmlFile );
         }
 
         return self::parseXml( $xmlFile );
@@ -53,7 +55,7 @@ class arbitXml extends arbitXmlNode implements arbitCacheable
      * Create XML document from string
      *
      * @param string $xmlString
-     * @return arbitXml
+     * @return Document
      */
     public static function loadString( $xmlString )
     {
@@ -93,10 +95,10 @@ class arbitXml extends arbitXmlNode implements arbitCacheable
     /**
      * Parse XML file
      *
-     * Parse the given XML into arbitXmlNode objects using the XMLReader class.
+     * Parse the given XML into Node objects using the XMLReader class.
      *
      * @param string $xmlFile
-     * @return arbitXmlNode
+     * @return Node
      */
     protected static function parseXml( $xmlFile )
     {
@@ -114,7 +116,7 @@ class arbitXml extends arbitXmlNode implements arbitCacheable
         $reader->open( $xmlFile );
 
         // Current node, processed. Start with a reference to th root node.
-        $current = $root = new arbitXml();
+        $current = $root = new Document();
 
         // Stack of parents for the current node. We store this list, because
         // we do not want to store a parent node reference in the nodes, as
@@ -143,7 +145,7 @@ class arbitXml extends arbitXmlNode implements arbitCacheable
 
                     // Create new child and reference node as current working
                     // node
-                    $current = $current->$nodeName = new arbitXmlNode();
+                    $current = $current->$nodeName = new Node();
 
                     // After reading the elements we need to know about this
                     // for further progressing
@@ -198,7 +200,7 @@ class arbitXml extends arbitXmlNode implements arbitCacheable
             libxml_use_internal_errors( $libXmlErrors );
             libxml_clear_errors();
 
-            throw new arbitXmlParserException( $xmlFile, $errors );
+            throw new ParserException( $xmlFile, $errors );
         }
 
         // Reset libxml error handling to old state
@@ -219,20 +221,6 @@ class arbitXml extends arbitXmlNode implements arbitCacheable
     {
         $rootList = reset( $this->childs );
         return $rootList[0]->toDocument();
-    }
-
-    /**
-     * Set object state after var_export.
-     *
-     * Set object state after var_export.
-     *
-     * @param array $array
-     * @param string $class
-     * @return arbitXml
-     */
-    public static function __set_state( array $array, $class = 'arbitXmlNode' )
-    {
-        return parent::__set_state( $array, __CLASS__ );
     }
 }
 
