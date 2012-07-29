@@ -22,23 +22,21 @@
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPL
  */
 
-/**
- * This file conatins the autoload definitions and basic error handling
- */
-function __autoload( $class )
-{
-    static $base  = null;
-    static $files = null;
-    
-    if ( $base === null )
-    {
-        $base  = dirname( __FILE__ ) . '/classes/';
-        $files = include $base . 'autoload.php';
-    }
+namespace Arbit\Xml;
 
-    if ( isset( $files[$class] ) )
+// @codeCoverageIgnoreStart
+// @codingStandardsIgnoreStart
+
+spl_autoload_register(
+    function ( $class )
     {
-        require $base . $files[$class];
+        if ( 0 === strpos( $class, __NAMESPACE__ ) )
+        {
+            include __DIR__ . '/../../' . strtr( $class, '\\', '/' ) . '.php';
+        }
     }
-}
+);
+
+// @codingStandardsIgnoreEnd
+// @codeCoverageIgnoreEnd
 
