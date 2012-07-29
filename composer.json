@@ -1,0 +1,8 @@
+{
+    "name":        "Arbit/XML",
+    "description": "XML reader with a SimpleXML like API.",
+    "version":     "0.1-dev",
+    "autoload":    {
+        "psr-0": { "Arbit\\Xml": "src/php/" }
+    }
+}
