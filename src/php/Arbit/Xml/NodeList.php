@@ -28,20 +28,20 @@
  * Single element node in an XML document mostly behaving like a
  * SimpleXMLElement node list.
  */
-class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
+class NodeList implements \ArrayAccess, \Iterator, \Countable
 {
     /**
      * Nodes in node list
-     * 
-     * @var array(arbitXmlNode)
+     *
+     * @var array(Node)
      */
     protected $nodes;
-    
+
     /**
      * Create new configuration node list.
      *
      * Create new configuration node list.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -54,14 +54,14 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
      *
      * Accessing a property directly on a node list will return a new node list
      * with all childs with this name of all nodes in the current node list.
-     * 
-     * @param string $childName 
-     * @return arbitXmlNodeList
+     *
+     * @param string $childName
+     * @return NodeList
      */
     public function __get( $childName )
     {
         // Create new list to fill up
-        $list = new arbitXmlNodeList();
+        $list = new NodeList();
 
         // Iterate over all nodes and check if a child with the requested name
         // exists.
@@ -85,23 +85,23 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
      * Access childs through object properties
      *
      * Access childs through object properties
-     * 
-     * @param string $property 
+     *
+     * @param string $property
      * @param mixed $value
-     * @return arbitXmlNode
+     * @return Node
      */
     public function __set( $property, $value )
     {
-        throw new arbitAccessException( $property, 'Setting not allowed' );
+        throw new AccessException( $property, 'Setting not allowed' );
     }
 
     /**
      * Check if a property exists
-     * 
+     *
      * Check if a property given by its name as object property exists. This is
      * a quite expensive operation on a node list.
-     * 
-     * @param string $childName 
+     *
+     * @param string $childName
      * @return bool
      */
     public function __isset( $childName )
@@ -124,15 +124,15 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
 
     /**
      * Set object state after var_export.
-     * 
+     *
      * Set object state after var_export.
-     * 
-     * @param array $array 
+     *
+     * @param array $array
      * @return void
      */
     public static function __set_state( array $array )
     {
-        $list = new arbitXmlNodeList();
+        $list = new NodeList();
 
         // Just append all known nodes using array access.
         foreach ( $array['nodes'] as $node )
@@ -148,7 +148,7 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
      *
      * String representation of node list returns the string representation of
      * the first node in the list.
-     * 
+     *
      * @return string
      */
     public function __toString()
@@ -165,22 +165,22 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
      * Check if node exists in node list.
      *
      * Check if node exists in node list.
-     * 
-     * @param int $item 
+     *
+     * @param int $item
      * @return void
      */
     public function offsetExists( $item )
     {
         return array_key_exists( $item, $this->nodes );
     }
-    
+
     /**
      * Get node from node list.
      *
      * Get node from node list by its number.
-     * 
-     * @param int $item 
-     * @return arbitXmlNode
+     *
+     * @param int $item
+     * @return Node
      */
     public function offsetGet( $item )
     {
@@ -191,14 +191,14 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
 
         return false;
     }
-    
+
     /**
      * Append node to node list
      *
      * Append node to node list
-     * 
-     * @param int $item 
-     * @param arbitXmlNode $node
+     *
+     * @param int $item
+     * @param Node $node
      * @return void
      */
     public function offsetSet( $item, $node )
@@ -207,24 +207,24 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
         // all other array keys then null.
         if ( $item !== null )
         {
-            throw new arbitValueException( $item, 'null' );
+            throw new ValueException( $item, 'null' );
         }
 
         return $this->nodes[] = $node;
     }
-    
+
     /**
      * Remove node from node list.
-     * 
+     *
      * Removing nodes from the node list is not allowed. You may only add nodes
      * here.
-     * 
-     * @param int $item 
+     *
+     * @param int $item
      * @return void
      */
     public function offsetUnset( $item )
     {
-        throw new arbitValueException( 'unset', 'Removing nodes not allowed.' );
+        throw new ValueException( 'unset', 'Removing nodes not allowed.' );
     }
 
     /**
@@ -233,7 +233,7 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
 
     /**
      * Implements current() for Iterator
-     * 
+     *
      * @return mixed
      */
     public function current()
@@ -243,7 +243,7 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
 
     /**
      * Implements key() for Iterator
-     * 
+     *
      * @return int
      */
     public function key()
@@ -253,7 +253,7 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
 
     /**
      * Implements next() for Iterator
-     * 
+     *
      * @return mixed
      */
     public function next()
@@ -263,7 +263,7 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
 
     /**
      * Implements rewind() for Iterator
-     * 
+     *
      * @return mixed
      */
     public function rewind()
@@ -279,7 +279,7 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
 
     /**
      * Implements valid() for Iterator
-     * 
+     *
      * @return boolean
      */
     public function valid()
@@ -292,10 +292,10 @@ class arbitXmlNodeList implements ArrayAccess, Iterator, Countable
      */
 
     /**
-     * Return count of nodes in node list. 
-     * 
-     * Return count of nodes in node list. 
-     * 
+     * Return count of nodes in node list.
+     *
+     * Return count of nodes in node list.
+     *
      * @return int
      */
     public function count()

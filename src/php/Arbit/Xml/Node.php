@@ -22,40 +22,42 @@
  * @license http://www.gnu.org/licenses/lgpl-3.0.txt LGPLv3
  */
 
+namespace Arbit\Xml;
+
 /*
  * XML node
  *
  * Single element node in an XML document mostly behaving like a
  * SimpleXMLElement object.
  */
-class arbitXmlNode implements ArrayAccess
+class Node implements \ArrayAccess
 {
     /**
      * Childnodes of this node
-     * 
-     * @var array(arbitXmlNode)
+     *
+     * @var array(Node)
      */
     protected $childs;
 
     /**
      * Configuration attribute values
-     * 
+     *
      * @var array
      */
     protected $attributes;
 
     /**
      * Text content of the node.
-     * 
+     *
      * @var string
      */
     protected $content;
-    
+
     /**
      * Create new configuration node.
      *
      * Create new configuration node with optionally given parent.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -69,8 +71,8 @@ class arbitXmlNode implements ArrayAccess
      * Set content of node.
      *
      * Set content of node supplied by parameter.
-     * 
-     * @param string $string 
+     *
+     * @param string $string
      * @return void
      */
     public function setContent( $string )
@@ -82,9 +84,9 @@ class arbitXmlNode implements ArrayAccess
      * Access childs through object properties
      *
      * Access childs through object properties
-     * 
-     * @param string $childName 
-     * @return arbitXmlNode
+     *
+     * @param string $childName
+     * @return Node
      */
     public function __get( $childName )
     {
@@ -100,12 +102,12 @@ class arbitXmlNode implements ArrayAccess
      * Access childs through object properties
      *
      * Access childs through object properties
-     * 
-     * @param string $childName 
-     * @param arbitXmlNode $child
-     * @return arbitXmlNode
+     *
+     * @param string $childName
+     * @param Node $child
+     * @return Node
      */
-    public function __set( $childName, arbitXmlNode $child )
+    public function __set( $childName, Node $child )
     {
         if ( !is_string( $childName ) )
         {
@@ -116,7 +118,7 @@ class arbitXmlNode implements ArrayAccess
         // Check if there already is a node list, othwerwise create it
         if ( !isset( $this->childs[$childName] ) )
         {
-            $this->childs[$childName] = new arbitXmlNodeList();
+            $this->childs[$childName] = new NodeList();
         }
 
         return $this->childs[$childName][] = $child;
@@ -124,10 +126,10 @@ class arbitXmlNode implements ArrayAccess
 
     /**
      * Check if a child exists
-     * 
+     *
      * Check if a child given by its name as object property exists.
-     * 
-     * @param string $childName 
+     *
+     * @param string $childName
      * @return bool
      */
     public function __isset( $childName )
@@ -139,21 +141,21 @@ class arbitXmlNode implements ArrayAccess
      * Retun if an attribute accessed through array access exists.
      *
      * Retun if an attribute accessed through array access exists.
-     * 
-     * @param string $attributeName 
+     *
+     * @param string $attributeName
      * @return void
      */
     public function offsetExists( $attributeName )
     {
         return array_key_exists( $attributeName, $this->attributes );
     }
-    
+
     /**
      * Get attribute value accessed through array access
      *
      * Get attribute value accessed through array access
-     * 
-     * @param string $attributeName 
+     *
+     * @param string $attributeName
      * @return void
      */
     public function offsetGet( $attributeName )
@@ -165,14 +167,14 @@ class arbitXmlNode implements ArrayAccess
 
         return false;
     }
-    
+
     /**
      * Set attribute value acceesd through array access
      *
      * Set attribute value acceesd through array access
-     * 
-     * @param string $attributeName 
-     * @param string $attribute 
+     *
+     * @param string $attributeName
+     * @param string $attribute
      * @return void
      */
     public function offsetSet( $attributeName, $attribute )
@@ -181,18 +183,18 @@ class arbitXmlNode implements ArrayAccess
              !is_string( $attribute ) )
         {
             // We only accept strings for name AND content
-            throw new arbitValueException( $attribute, 'string' );
+            throw new ValueException( $attribute, 'string' );
         }
 
         $this->attributes[$attributeName] = $attribute;
     }
-    
+
     /**
      * Unset attribute through array access
-     * 
+     *
      * Unset attribute through array access
-     * 
-     * @param string $attributeName 
+     *
+     * @param string $attributeName
      * @return void
      */
     public function offsetUnset( $attributeName )
@@ -204,7 +206,7 @@ class arbitXmlNode implements ArrayAccess
      * Return text content on string casting.
      *
      * Return text content of node, when casted to string or echoed.
-     * 
+     *
      * @return string
      */
     public function __toString()
@@ -214,52 +216,16 @@ class arbitXmlNode implements ArrayAccess
 
     /**
      * Convert current node into a document node
-     * 
-     * @return arbitXml
+     *
+     * @return Document
      */
     public function toDocument()
     {
-        return arbitXml::__set_state( array( 
+        return Document::__set_state( array(
             'childs'     => $this->childs,
             'attributes' => $this->attributes,
             'content'    => $this->content,
         ) );
-    }
-
-    /**
-     * Set object state after var_export.
-     * 
-     * Set object state after var_export.
-     * 
-     * @param array $array 
-     * @param string $class
-     * @return arbitXmlNode
-     */
-    public static function __set_state( array $array, $class = 'arbitXmlNode' )
-    {
-        $node = new $class();
-
-        // Reassign all childrens to the node. For that we get all elements out
-        // of the node list and assign them to the node.
-        foreach ( $array['childs'] as $name => $nodeList )
-        {
-            foreach ( $nodeList as $child )
-            {
-                $node->$name = $child;
-            }
-        }
-
-        // Reassign all attribute values
-        foreach ( $array['attributes'] as $name => $value )
-        {
-            $node[$name] = $value;
-        }
-
-        // Set content of node
-        $node->setContent( $array['content'] );
-
-        // Done - return created node
-        return $node;
     }
 }
 
