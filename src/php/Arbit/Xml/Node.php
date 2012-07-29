@@ -112,7 +112,7 @@ class Node implements \ArrayAccess
         if ( !is_string( $childName ) )
         {
             // We only accept strings for child names
-            throw new arbitValueException( $childName, 'string' );
+            throw new ValueException( $childName, 'string' );
         }
 
         // Check if there already is a node list, othwerwise create it
@@ -226,6 +226,41 @@ class Node implements \ArrayAccess
             'attributes' => $this->attributes,
             'content'    => $this->content,
         ) );
+    }
+
+    /**
+     * Set object state after var_export.
+     *
+     * Set object state after var_export.
+     *
+     * @param array $array
+     * @return Node
+     */
+    public static function __set_state( array $array )
+    {
+        $node = new static();
+
+        // Reassign all childrens to the node. For that we get all elements out
+        // of the node list and assign them to the node.
+        foreach ( $array['childs'] as $name => $nodeList )
+        {
+            foreach ( $nodeList as $child )
+            {
+                $node->$name = $child;
+            }
+        }
+
+        // Reassign all attribute values
+        foreach ( $array['attributes'] as $name => $value )
+        {
+            $node[$name] = $value;
+        }
+
+        // Set content of node
+        $node->setContent( $array['content'] );
+
+        // Done - return created node
+        return $node;
     }
 }
 

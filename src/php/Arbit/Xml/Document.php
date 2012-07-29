@@ -95,14 +95,14 @@ class Document extends Node
     /**
      * Parse XML file
      *
-     * Parse the given XML into Node objects using the XMLReader class.
+     * Parse the given XML into Node objects using the \XMLReader class.
      *
      * @param string $xmlFile
      * @return Node
      */
     protected static function parseXml( $xmlFile )
     {
-        $reader = new XMLReader();
+        $reader = new \XMLReader();
 
         // Use custom error handling to suppress warnings and errors during
         // parsing.
@@ -132,7 +132,7 @@ class Document extends Node
         {
             switch( $reader->nodeType )
             {
-                case XMLReader::ELEMENT:
+                case \XMLReader::ELEMENT:
                     // A new element, which results in a new configuration node as
                     // a child of the current node
                     //
@@ -172,7 +172,7 @@ class Document extends Node
                         break;
                     }
 
-                case XMLReader::END_ELEMENT:
+                case \XMLReader::END_ELEMENT:
                     // At the end of a element set the current pointer back to its
                     // parent
                     //
@@ -180,8 +180,8 @@ class Document extends Node
                     $current = array_pop( $parents );
                     break;
 
-                case XMLReader::TEXT:
-                case XMLReader::CDATA:
+                case \XMLReader::TEXT:
+                case \XMLReader::CDATA:
                     // Text and CData node are added as node content.
                     //
                     // Append string, in case several text or Cdata nodes exist
@@ -200,7 +200,7 @@ class Document extends Node
             libxml_use_internal_errors( $libXmlErrors );
             libxml_clear_errors();
 
-            throw new ParserException( $xmlFile, $errors );
+            throw new XmlParserException( $xmlFile, $errors );
         }
 
         // Reset libxml error handling to old state

@@ -6,121 +6,115 @@
  * @license GPLv3
  */
 
+namespace Arbit\Xml;
+
+require_once 'TestCase.php';
+
 /**
  * Tests for the XML handler
  */
-class arbitXmlTests extends arbitTestCase
+class DocumentTests extends TestCase
 {
     /**
-     * Return test suite
-     *
-     * @return PHPUnit_Framework_TestSuite
-     */
-    public static function suite()
-    {
-        return new PHPUnit_Framework_TestSuite( __CLASS__ );
-    }
-
-    /**
      * Test if unknown users are handled correctly
-     * 
+     *
      * @return void
      */
     public function testUnknownXmlFile()
     {
         try
         {
-            $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/not_existing_file.xml.xml' );
-            $this->fail( 'Expected arbitNoSuchFileException.' );
+            $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/not_existing_file.xml.xml' );
+            $this->fail( 'Expected NoSuchFileException.' );
         }
-        catch( arbitNoSuchFileException $e )
+        catch( NoSuchFileException $e )
         { /* Expected */ }
     }
 
     /**
      * Test XML file with parse errors
-     * 
+     *
      * @return void
      */
     public function testParseErrors1()
     {
         try
         {
-            $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/broken_1.xml' );
-            $this->fail( 'Expected arbitXmlParserException.' );
+            $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/broken_1.xml' );
+            $this->fail( 'Expected XmlParserException.' );
         }
-        catch( arbitXmlParserException $e )
+        catch( XmlParserException $e )
         { /* Expected */ }
     }
 
     /**
      * Test XML file with parse errors
-     * 
+     *
      * @return void
      */
     public function testParseErrors2()
     {
         try
         {
-            $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/broken_2.xml' );
-            $this->fail( 'Expected arbitXmlParserException.' );
+            $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/broken_2.xml' );
+            $this->fail( 'Expected XmlParserException.' );
         }
-        catch( arbitXmlParserException $e )
+        catch( XmlParserException $e )
         { /* Expected */ }
     }
 
     /**
      * Test XML file with parse errors
-     * 
+     *
      * @return void
      */
     public function testParseErrors3()
     {
         try
         {
-            $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/broken_3.xml' );
-            $this->fail( 'Expected arbitXmlParserException.' );
+            $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/broken_3.xml' );
+            $this->fail( 'Expected XmlParserException.' );
         }
-        catch( arbitXmlParserException $e )
+        catch( XmlParserException $e )
         { /* Expected */ }
     }
 
     /**
      * Test minimal valid XML file
-     * 
+     *
      * @return void
      */
     public function testMinimalXmlFile()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/minimal.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/minimal.xml' );
 
         $this->assertTrue(
-            $xml instanceof arbitXml
+            $xml instanceof Document
         );
     }
 
     /**
      * Test minimal valid XML file
-     * 
+     *
      * @return void
      */
     public function testMinimalXmlString()
     {
-        $xml = arbitXml::loadString( file_get_contents( dirname( __FILE__ ) . '/../data/xml/minimal.xml' ) );
+        $xml = Document::loadString( file_get_contents( __DIR__ . '/_fixtures/xml/minimal.xml' ) );
 
         $this->assertTrue(
-            $xml instanceof arbitXml
+            $xml instanceof Document
         );
     }
 
     /**
      * Test isset methods
-     * 
+     *
      * @return void
      */
     public function testIssetXmlhildElements()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/example.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/example.xml' );
 
         $this->assertFalse( isset( $xml->notexistant ) );
         $this->assertFalse( isset( $xml->general->notexistant ) );
@@ -130,15 +124,15 @@ class arbitXmlTests extends arbitTestCase
 
     /**
      * Test XML file with text content
-     * 
+     *
      * @return void
      */
     public function testTextContent()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/text.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/text.xml' );
 
         $this->assertTrue(
-            $xml instanceof arbitXmlNode
+            $xml instanceof Node
         );
 
         $this->assertEquals(
@@ -154,23 +148,23 @@ class arbitXmlTests extends arbitTestCase
 
     /**
      * Test minimal valid XML file
-     * 
+     *
      * @return void
      */
     public function testXmlWithAttributes()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/attributes.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/attributes.xml' );
 
         $this->assertTrue(
-            $xml->element instanceof arbitXmlNodeList
+            $xml->element instanceof NodeList
         );
 
         $this->assertTrue(
-            $xml->element[0] instanceof arbitXmlNode
+            $xml->element[0] instanceof Node
         );
 
         $this->assertTrue(
-            $xml->element[1] instanceof arbitXmlNode
+            $xml->element[1] instanceof Node
         );
 
         $this->assertEquals(
@@ -186,15 +180,15 @@ class arbitXmlTests extends arbitTestCase
 
     /**
      * Test creation of node list from multilevel query
-     * 
+     *
      * @return void
      */
     public function testMultilevelNodeListCreation()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/multilevel.xml' );
 
         $this->assertTrue(
-            $xml->section->module instanceof arbitXmlNodeList
+            $xml->section->module instanceof NodeList
         );
 
         $this->assertEquals(
@@ -210,12 +204,12 @@ class arbitXmlTests extends arbitTestCase
 
     /**
      * Test node list iterator
-     * 
+     *
      * @return void
      */
     public function testNodeListIterator()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/multilevel.xml' );
 
         $modules = $xml->section->module;
 
@@ -232,69 +226,69 @@ class arbitXmlTests extends arbitTestCase
 
     /**
      * Test failure on setting a node list property
-     * 
+     *
      * @return void
      */
     public function testSetNodeListProperty()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/multilevel.xml' );
 
         try
         {
             $nodeList = $xml->section->module;
             $nodeList->property = 'value';
-            $this->fail( 'Expected arbitAccessException.' );
+            $this->fail( 'Expected AccessException.' );
         }
-        catch ( arbitAccessException $e )
+        catch ( AccessException $e )
         { /* Expected */ }
     }
 
     /**
      * Test failure on setting a node list array value
-     * 
+     *
      * @return void
      */
     public function testSetNodeListArrayValue()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/multilevel.xml' );
 
         try
         {
             $nodeList = $xml->section->module;
             $nodeList['key'] = 'value';
-            $this->fail( 'Expected arbitValueException.' );
+            $this->fail( 'Expected ValueException.' );
         }
-        catch ( arbitValueException $e )
+        catch ( ValueException $e )
         { /* Expected */ }
     }
 
     /**
      * Test failure on unsetting a node list array value
-     * 
+     *
      * @return void
      */
     public function testUnSetNodeListArrayValue()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/multilevel.xml' );
 
         try
         {
             $nodeList = $xml->section->module;
             unset( $nodeList[0] );
-            $this->fail( 'Expected arbitValueException.' );
+            $this->fail( 'Expected ValueException.' );
         }
-        catch ( arbitValueException $e )
+        catch ( ValueException $e )
         { /* Expected */ }
     }
 
     /**
      * Test Node list to string conversion
-     * 
+     *
      * @return void
      */
     public function testNodeListToStringConversion()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/multilevel.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/multilevel.xml' );
 
         $nodeList = $xml->section->module;
         $this->assertEquals(
@@ -305,38 +299,38 @@ class arbitXmlTests extends arbitTestCase
 
     /**
      * Test failure on invalid attribute value
-     * 
+     *
      * @return void
      */
     public function testInvalidNodeAttributeValue()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/minimal.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/minimal.xml' );
 
         $xml['attribute'] = 'value';
         try
         {
             $xml[12] = 'value';
-            $this->fail( 'Expected arbitValueException.' );
+            $this->fail( 'Expected ValueException.' );
         }
-        catch ( arbitValueException $e )
+        catch ( ValueException $e )
         { /* Expected */ }
     }
 
     /**
      * Test failure on invalid child name
-     * 
+     *
      * @return void
      */
     public function testInvalidNodeChildName()
     {
-        $xml = arbitXml::loadFile( dirname( __FILE__ ) . '/../data/xml/minimal.xml' );
+        $xml = Document::loadFile( __DIR__ . '/_fixtures/xml/minimal.xml' );
 
         try
         {
             $xml->__set( 0, $xml );
-            $this->fail( 'Expected arbitValueException.' );
+            $this->fail( 'Expected ValueException.' );
         }
-        catch ( arbitValueException $e )
+        catch ( ValueException $e )
         { /* Expected */ }
     }
 }
