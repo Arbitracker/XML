@@ -1,6 +1,7 @@
 {
     "name":        "arbit/xml",
     "description": "XML reader with a SimpleXML like API.",
+    "license": "LGPL-3.0+",
     "autoload":    {
         "psr-0": { "Arbit\\Xml": "src/php/" }
     }
