@@ -1,5 +1,5 @@
 {
-    "name":        "Arbit/XML",
+    "name":        "arbit/xml",
     "description": "XML reader with a SimpleXML like API.",
     "version":     "0.1-dev",
     "autoload":    {
