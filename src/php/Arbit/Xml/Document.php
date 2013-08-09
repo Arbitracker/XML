@@ -113,7 +113,10 @@ class Document extends Node
         $errors = array();
 
         // Just open, errors will not occure before actually reading.
-        $reader->open( $xmlFile );
+        if ( !$reader->open( $xmlFile ) )
+        {
+            throw new XmlParserException( $xmlFile, array() );
+        }
 
         // Current node, processed. Start with a reference to th root node.
         $current = $root = new Document();
